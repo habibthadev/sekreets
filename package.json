@@ -1,0 +1,13 @@
+{
+  "name": "sekreets",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "install:all": "npm install --prefix server && npm install --prefix client",
+    "build:all": "npm run build --prefix server && npm run build --prefix client",
+    "test": "npm test --prefix server",
+    "zip": "bash scripts/zip.sh"
+  }
+}
