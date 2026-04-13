@@ -6,7 +6,7 @@ export const SSE_URL = `${API_BASE}/scan/stream`;
 
 export const apiClient = axios.create({
   baseURL: API_BASE,
-  timeout: 30_000,
+  timeout: 60_000,
   headers: { "Content-Type": "application/json" },
 });
 
