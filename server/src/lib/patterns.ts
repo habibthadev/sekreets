@@ -63,7 +63,7 @@ export const AI_PATTERNS = [
     provider: "Mistral",
     name: "mistral_api_key",
     regex:
-      /(?:MISTRAL_API_KEY|mistral[_\-]?key)[^\S\r\n]*[:=][^\S\r\n]*["']?([a-zA-Z0-9]{32,})/gi,
+      /(?:MISTRAL_API_KEY|mistral[_\-]?key)["']?[^\S\r\n]*[:=][^\S\r\n]*["']?([a-zA-Z0-9]{32,})/gi,
     description: "Mistral AI API Key (context-aware)",
     contextual: true,
   },
@@ -71,7 +71,7 @@ export const AI_PATTERNS = [
     provider: "Cohere",
     name: "cohere_api_key",
     regex:
-      /(?:CO_API_KEY|COHERE_API_KEY|cohere[_\-]?key)[^\S\r\n]*[:=][^\S\r\n]*["']?([a-zA-Z0-9]{40,})/gi,
+      /(?:CO_API_KEY|COHERE_API_KEY|cohere[_\-]?key)["']?[^\S\r\n]*[:=][^\S\r\n]*["']?([a-zA-Z0-9]{40,})/gi,
     description: "Cohere API Key (context-aware)",
     contextual: true,
   },
@@ -79,7 +79,7 @@ export const AI_PATTERNS = [
     provider: "ElevenLabs",
     name: "elevenlabs_api_key",
     regex:
-      /(?:ELEVENLABS_API_KEY|XI_API_KEY|elevenlabs[_\-]?key)[^\S\r\n]*[:=][^\S\r\n]*["']?([a-f0-9]{32})/gi,
+      /(?:ELEVENLABS_API_KEY|XI_API_KEY|elevenlabs[_\-]?key)["']?[^\S\r\n]*[:=][^\S\r\n]*["']?([a-f0-9]{32})/gi,
     description: "ElevenLabs API Key (context-aware)",
     contextual: true,
   },
@@ -87,7 +87,7 @@ export const AI_PATTERNS = [
     provider: "AssemblyAI",
     name: "assemblyai_api_key",
     regex:
-      /(?:ASSEMBLYAI_API_KEY|assembly[_\-]?ai[_\-]?key)[^\S\r\n]*[:=][^\S\r\n]*["']?([a-f0-9]{32})/gi,
+      /(?:ASSEMBLYAI_API_KEY|assembly[_\-]?ai[_\-]?key)["']?[^\S\r\n]*[:=][^\S\r\n]*["']?([a-f0-9]{32})/gi,
     description: "AssemblyAI API Key (context-aware)",
     contextual: true,
   },
@@ -95,7 +95,7 @@ export const AI_PATTERNS = [
     provider: "Together",
     name: "together_api_key",
     regex:
-      /(?:TOGETHER_API_KEY|together[_\-]?key)[^\S\r\n]*[:=][^\S\r\n]*["']?([a-f0-9]{64})/gi,
+      /(?:TOGETHER_API_KEY|together[_\-]?key)["']?[^\S\r\n]*[:=][^\S\r\n]*["']?([a-f0-9]{64})/gi,
     description: "Together AI API Key (context-aware)",
     contextual: true,
   },
@@ -103,7 +103,7 @@ export const AI_PATTERNS = [
     provider: "AI21",
     name: "ai21_api_key",
     regex:
-      /(?:AI21_API_KEY|ai21[_\-]?key)[^\S\r\n]*[:=][^\S\r\n]*["']?([a-zA-Z0-9]{32,})/gi,
+      /(?:AI21_API_KEY|ai21[_\-]?key)["']?[^\S\r\n]*[:=][^\S\r\n]*["']?([a-zA-Z0-9]{32,})/gi,
     description: "AI21 Labs API Key (context-aware)",
     contextual: true,
   },
@@ -111,7 +111,7 @@ export const AI_PATTERNS = [
     provider: "DeepInfra",
     name: "deepinfra_api_key",
     regex:
-      /(?:DEEPINFRA_API_KEY|deepinfra[_\-]?key)[^\S\r\n]*[:=][^\S\r\n]*["']?([a-zA-Z0-9]{20,})/gi,
+      /(?:DEEPINFRA_API_KEY|deepinfra[_\-]?key)["']?[^\S\r\n]*[:=][^\S\r\n]*["']?([a-zA-Z0-9]{20,})/gi,
     description: "DeepInfra API Key (context-aware)",
     contextual: true,
   },
@@ -119,7 +119,7 @@ export const AI_PATTERNS = [
     provider: "Azure",
     name: "azure_openai_key",
     regex:
-      /(?:AZURE_OPENAI(?:_API)?_KEY|azure[_\-]?openai[_\-]?key)[^\S\r\n]*[:=][^\S\r\n]*["']?([a-f0-9]{32})/gi,
+      /(?:AZURE_OPENAI(?:_API)?_KEY|azure[_\-]?openai[_\-]?key)["']?[^\S\r\n]*[:=][^\S\r\n]*["']?([a-f0-9]{32})/gi,
     description: "Azure OpenAI API Key (context-aware)",
     contextual: true,
   },
@@ -140,7 +140,7 @@ export const AI_PATTERNS = [
     provider: "DeepSeek",
     name: "deepseek_api_key",
     regex:
-      /(?:DEEPSEEK_API_KEY|deepseek[_\-]?key)[^\S\r\n]*[:=][^\S\r\n]*["']?([a-zA-Z0-9\-_]{32,})/gi,
+      /(?:DEEPSEEK_API_KEY|deepseek[_\-]?key)["']?[^\S\r\n]*[:=][^\S\r\n]*["']?([a-zA-Z0-9\-_]{32,})/gi,
     description: "DeepSeek API Key (context-aware)",
     contextual: true,
   },
@@ -166,7 +166,7 @@ export const AI_PATTERNS = [
     provider: "Cerebras",
     name: "cerebras_api_key",
     regex:
-      /(?:CEREBRAS_API_KEY|cerebras[_\-]?key)[^\S\r\n]*[:=][^\S\r\n]*["']?([a-zA-Z0-9\-_]{32,})/gi,
+      /(?:CEREBRAS_API_KEY|cerebras[_\-]?key)["']?[^\S\r\n]*[:=][^\S\r\n]*["']?([a-zA-Z0-9\-_]{32,})/gi,
     description: "Cerebras API Key (context-aware)",
     contextual: true,
   },
