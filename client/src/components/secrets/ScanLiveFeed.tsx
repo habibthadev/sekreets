@@ -53,9 +53,9 @@ const FeedRow = ({ item }: { item: FeedItem }) => {
 
   if (item.type === "found") {
     return (
-      <div className="flex items-start gap-2 py-2 px-3 rounded-md bg-background border border-border animate-slide-up ring-1 ring-foreground/5">
+      <div className="flex items-start gap-2 py-2 px-3 rounded-md bg-background border border-border animate-slide-up ring-1 ring-foreground/5 overflow-hidden">
         <KeyRound className="h-3.5 w-3.5 text-foreground mt-0.5 shrink-0" />
-        <div className="min-w-0 flex-1 space-y-0.5">
+        <div className="min-w-0 flex-1 overflow-hidden space-y-0.5">
           <div className="flex items-center gap-1.5 flex-wrap">
             <span
               className={cn(
@@ -80,7 +80,7 @@ const FeedRow = ({ item }: { item: FeedItem }) => {
               </span>
             )}
           </div>
-          <span className="font-mono-data text-[11px] text-foreground/70 block">
+          <span className="font-mono-data text-[11px] text-foreground/70 block truncate">
             {item.maskedValue}
           </span>
         </div>
