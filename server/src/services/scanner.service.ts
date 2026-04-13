@@ -7,28 +7,94 @@ import { AI_PATTERNS } from "../lib/patterns.js";
 import { emitScanEvent } from "../lib/scan-emitter.js";
 import type { GithubCodeItem } from "../lib/github.js";
 
-const SCAN_QUERIES = [
-  'filename:.env "sk-"',
-  'filename:.env "OPENAI_API_KEY"',
-  'filename:.env "ANTHROPIC_API_KEY"',
-  'filename:.env "AIza"',
-  'filename:.env "hf_"',
-  'filename:.env "GROQ_API_KEY"',
-  'filename:.env "pplx-"',
-  'filename:.env "r8_"',
-  'filename:.env "gsk_"',
-  'filename:.env "xai-"',
-  'filename:.env "nvapi-"',
-  'filename:.env "sk-or-"',
-  'filename:.env "MISTRAL_API_KEY"',
-  'filename:.env "COHERE_API_KEY"',
-  'filename:.env "STABILITY_API_KEY"',
-  'filename:.env "TOGETHER_API_KEY"',
-  'filename:.env "ELEVENLABS_API_KEY"',
-  'filename:.env "DEEPSEEK_API_KEY"',
-  'filename:.env "FIREWORKS_API_KEY"',
-  'filename:.env "CEREBRAS_API_KEY"',
+const DISTINCTIVE_PREFIX_QUERIES = [
+  '"sk-proj-"',
+  '"sk-ant-"',
+  '"AIza"',
+  '"hf_"',
+  '"pplx-"',
+  '"r8_"',
+  '"gsk_"',
+  '"xai-"',
+  '"nvapi-"',
+  '"sk-or-"',
+  '"fw_"',
+  '"AKIA"',
 ];
+
+const ENV_VAR_QUERIES = [
+  '"OPENAI_API_KEY"',
+  '"ANTHROPIC_API_KEY"',
+  '"GROQ_API_KEY"',
+  '"MISTRAL_API_KEY"',
+  '"COHERE_API_KEY"',
+  '"STABILITY_API_KEY"',
+  '"TOGETHER_API_KEY"',
+  '"ELEVENLABS_API_KEY"',
+  '"DEEPSEEK_API_KEY"',
+  '"FIREWORKS_API_KEY"',
+  '"CEREBRAS_API_KEY"',
+  '"AI21_API_KEY"',
+  '"ASSEMBLYAI_API_KEY"',
+  '"DEEPINFRA_API_KEY"',
+  '"AZURE_OPENAI_API_KEY"',
+  '"XI_API_KEY"',
+  '"CO_API_KEY"',
+  '"VOYAGE_API_KEY"',
+];
+
+const TARGETED_CONFIG_QUERIES = [
+  'filename:mcp.json "sk-"',
+  'filename:claude_desktop_config.json "sk-"',
+  'filename:settings.json path:.claude "sk-"',
+  'filename:config.json path:.continue "sk-"',
+  'filename:config.json path:.codeium "sk-"',
+  'filename:.npmrc "_authToken"',
+  'filename:.yarnrc.yml "npmAuthToken"',
+  'filename:docker-compose.yml "API_KEY"',
+  'filename:docker-compose.yaml "API_KEY"',
+  'filename:wrangler.toml "API_KEY"',
+  'filename:render.yaml "API_KEY"',
+  'filename:fly.toml "API_KEY"',
+  'filename:netlify.toml "API_KEY"',
+  'filename:railway.toml "API_KEY"',
+  'extension:yml path:.github/workflows "API_KEY"',
+  'filename:.gitlab-ci.yml "API_KEY"',
+  'filename:config.yml path:.circleci "API_KEY"',
+  'filename:Jenkinsfile "API_KEY"',
+  'filename:appsettings.json "ApiKey"',
+  'filename:secrets.yaml "api_key"',
+  'filename:secrets.yml "api_key"',
+  'filename:Dockerfile "API_KEY"',
+  'extension:properties "api.key"',
+  'extension:ini "api_key"',
+  'extension:conf "api_key"',
+  'extension:cfg "api_key"',
+  'extension:xml "apiKey"',
+  'filename:.env.local "sk-"',
+  'filename:.env.production "sk-"',
+  'filename:.env.staging "sk-"',
+  'filename:.env.development "sk-"',
+  'filename:.env.test "sk-"',
+  'filename:next.config.js "sk-"',
+  'filename:next.config.ts "sk-"',
+  'filename:nuxt.config.ts "sk-"',
+  'filename:vite.config.ts "sk-"',
+  'filename:astro.config.mjs "sk-"',
+  'filename:svelte.config.js "sk-"',
+  'filename:openai.json "sk-"',
+  'filename:gemini.json "AIza"',
+  'filename:vercel.json "sk-"',
+  'filename:.pnpmfile.cjs "sk-"',
+];
+
+const SCAN_QUERIES = [
+  ...DISTINCTIVE_PREFIX_QUERIES,
+  ...ENV_VAR_QUERIES,
+  ...TARGETED_CONFIG_QUERIES,
+];
+
+let _queryOffset = 0;
 
 const extractLineNumber = (content: string, value: string): number | null => {
   const lines = content.split("\n");
@@ -154,11 +220,19 @@ export const runScan = async (
 
   const effectiveQueries = queries.length > 0 ? queries : SCAN_QUERIES;
 
+  const batchSize = env.MAX_RESULTS_PER_SCAN;
+  const start = _queryOffset % effectiveQueries.length;
+  const batch: string[] = [];
+  for (let i = 0; i < batchSize; i++) {
+    batch.push(effectiveQueries[(start + i) % effectiveQueries.length]);
+  }
+  _queryOffset = (start + batchSize) % effectiveQueries.length;
+
   let totalNew = 0;
   let pagesScanned = 0;
 
   try {
-    for (const query of effectiveQueries.slice(0, env.MAX_RESULTS_PER_SCAN)) {
+    for (const query of batch) {
       try {
         const result = await searchGithubCode(query, 1, 30);
         pagesScanned++;
