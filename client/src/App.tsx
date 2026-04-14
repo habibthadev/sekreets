@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { LandingPage } from "@/pages/LandingPage";
 import { SecretsPage } from "@/pages/SecretsPage";
 import { LeaderboardPage } from "@/pages/LeaderboardPage";
+import { NotFoundPage } from "@/pages/NotFoundPage";
 import { ScanFeedProvider } from "@/store/scan-feed.context";
 import { ScrollToTop } from "@/lib/ScrollToTop";
 
@@ -18,6 +19,7 @@ const App = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/secrets" element={<SecretsPage />} />
             <Route path="/leaderboard" element={<LeaderboardPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
         <Footer />
