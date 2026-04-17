@@ -122,10 +122,10 @@ const EntryCard = ({
             href={`https://github.com/${entry.login}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 font-semibold text-sm tracking-tight hover:underline underline-offset-2"
+            className="flex items-center gap-1 font-semibold text-sm tracking-tight hover:underline underline-offset-2 truncate max-w-full"
           >
-            {entry.login}
-            <ExternalLink className="h-3 w-3 text-muted-foreground" />
+            <span className="truncate">{entry.login}</span>
+            <ExternalLink className="h-3 w-3 text-muted-foreground shrink-0" />
           </a>
 
           <Tooltip content="Total exposed secrets">
@@ -216,7 +216,7 @@ export const LeaderboardPage = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="border-b border-border bg-background">
+      <div className="bg-background">
         <div className="mx-auto max-w-4xl px-4 py-4 sm:py-5 sm:px-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0">

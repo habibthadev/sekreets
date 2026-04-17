@@ -35,6 +35,16 @@ const LIMIT_OPTIONS: SelectOption[] = [
   { value: "50", label: "50 per page" },
 ];
 
+const DEFAULT_PROVIDERS = [
+  "OpenAI",
+  "Anthropic",
+  "Google",
+  "Groq",
+  "Perplexity",
+  "HuggingFace",
+  "Mistral",
+];
+
 const paramsFromSearch = (sp: URLSearchParams): SecretsParams => ({
   page: Number(sp.get("page") ?? 1),
   limit: Number(sp.get("limit") ?? 20),
@@ -131,7 +141,9 @@ export const SecretsPage = () => {
 
   const providers: SelectOption[] = [
     { value: "", label: "All providers" },
-    ...(providersQuery.data ?? []).map((p) => ({ value: p, label: p })),
+    ...Array.from(new Set([...DEFAULT_PROVIDERS, ...(providersQuery.data ?? [])]))
+      .sort()
+      .map((p) => ({ value: p, label: p })),
   ];
 
   const handleRefresh = () => {
@@ -152,12 +164,12 @@ export const SecretsPage = () => {
   return (
     <div className="min-h-screen">
       {}
-      <div className="border-b border-border bg-background">
+      <div className="bg-background">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:py-5 sm:px-6">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <h1 className="text-base font-semibold tracking-tight leading-tight">
-                Secret Scanner
+                Secret scanner
               </h1>
               <p className="text-xs text-muted-foreground mt-0.5 leading-snug">
                 Real-time AI API key exposure monitor across public GitHub
@@ -197,6 +209,7 @@ export const SecretsPage = () => {
               onChange={(e) =>
                 setParams({ search: e.target.value || undefined })
               }
+              onClear={() => setParams({ search: undefined })}
             />
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -244,7 +257,7 @@ export const SecretsPage = () => {
         <div className="flex flex-wrap items-center justify-between gap-y-1 gap-x-3">
           <div className="flex flex-wrap items-center gap-2">
             {meta && (
-              <span className="text-xs text-muted-foreground">
+              <span className="text-xs text-muted-foreground font-medium">
                 {meta.total.toLocaleString()} secrets found
               </span>
             )}
@@ -281,8 +294,8 @@ export const SecretsPage = () => {
             ))}
           </div>
         ) : secrets.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-border bg-muted">
+          <div className="flex flex-col items-center justify-center py-20 text-center bg-muted/10 rounded-lg border border-dashed border-border">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-border bg-muted/50">
               <ShieldOff className="h-5 w-5 text-muted-foreground" />
             </div>
             <h3 className="mb-1 text-sm font-medium">No secrets found</h3>
@@ -302,7 +315,7 @@ export const SecretsPage = () => {
 
         {}
         {(hasPrev || hasNext) && (
-          <div className="flex items-center justify-between gap-2 pt-2 border-t border-border">
+          <div className="flex items-center justify-between gap-2 pt-2">
             <Button
               variant="outline"
               size="sm"
@@ -313,7 +326,7 @@ export const SecretsPage = () => {
               <span className="hidden sm:inline ml-1">Previous</span>
             </Button>
 
-            <span className="text-xs text-muted-foreground tabular-nums">
+            <span className="text-xs text-muted-foreground tabular-nums font-medium">
               {meta ? `${meta.total.toLocaleString()} total · ` : ""}
               page {currentPage}
               {totalPages != null ? ` of ${totalPages}` : ""}

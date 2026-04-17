@@ -6,6 +6,7 @@ import {
   CheckCircle2,
   XCircle,
   X,
+  Terminal,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -34,32 +35,36 @@ const SLOT_COUNT = 5;
 const FeedRow = ({ item }: { item: FeedItem }) => {
   if (item.type === "scanning") {
     return (
-      <div className="flex items-start gap-2 py-2 px-3 rounded-md bg-muted/40 border border-border/60 animate-slide-up">
+      <div className="flex items-start gap-3 py-2 px-3 rounded-md bg-muted/20 border border-border/40 animate-slide-up relative overflow-hidden group">
+        <div className="absolute inset-y-0 left-0 w-1 bg-primary/40 animate-pulse" />
         <Loader2 className="h-3.5 w-3.5 text-muted-foreground mt-0.5 shrink-0 animate-spin" />
         <div className="min-w-0 flex-1">
-          <span className="text-xs font-medium tracking-tight text-foreground truncate block">
+          <span className="text-xs font-medium tracking-tight text-foreground/90 truncate block">
             {item.repo}
           </span>
-          <span className="font-mono-data text-[11px] text-muted-foreground truncate block">
+          <span className="font-mono-data text-[10px] text-muted-foreground truncate block opacity-70">
             {item.file}
           </span>
         </div>
-        <span className="text-label text-muted-foreground shrink-0">
-          scanning
-        </span>
+        <div className="flex items-center gap-2 shrink-0">
+          <span className="text-[10px] font-bold text-muted-foreground/60 animate-scan-pulse">
+            scanning
+          </span>
+        </div>
       </div>
     );
   }
 
   if (item.type === "found") {
     return (
-      <div className="flex items-start gap-2 py-2 px-3 rounded-md bg-background border border-border animate-slide-up ring-1 ring-foreground/5 overflow-hidden">
-        <KeyRound className="h-3.5 w-3.5 text-foreground mt-0.5 shrink-0" />
-        <div className="min-w-0 flex-1 overflow-hidden space-y-0.5">
-          <div className="flex items-center gap-1.5 flex-wrap">
+      <div className="flex items-start gap-3 py-2 px-3 rounded-md bg-background border border-primary/20 animate-slide-up ring-1 ring-primary/5 overflow-hidden group">
+        <div className="absolute inset-y-0 left-0 w-1 bg-destructive animate-pulse" />
+        <KeyRound className="h-3.5 w-3.5 text-destructive mt-0.5 shrink-0" />
+        <div className="min-w-0 flex-1 overflow-hidden space-y-1">
+          <div className="flex items-center gap-2 flex-wrap">
             <span
               className={cn(
-                "inline-flex items-center rounded-sm border px-1.5 py-0 text-[10px] font-semibold uppercase tracking-widest",
+                "inline-flex items-center rounded-sm border px-1.5 py-0 text-[9px] font-bold uppercase tracking-widest h-4",
                 providerColor(item.provider),
               )}
             >
@@ -70,21 +75,21 @@ const FeedRow = ({ item }: { item: FeedItem }) => {
                 href={item.fileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono-data text-[11px] text-muted-foreground hover:text-foreground underline underline-offset-2 truncate max-w-[140px] sm:max-w-[220px] md:max-w-xs"
+                className="font-mono-data text-[10px] text-muted-foreground hover:text-foreground underline underline-offset-4 decoration-muted-foreground/30 truncate max-w-[140px] sm:max-w-[220px]"
               >
                 {item.repo}/{item.file}
               </a>
             ) : (
-              <span className="font-mono-data text-[11px] text-muted-foreground truncate max-w-[140px] sm:max-w-[220px] md:max-w-xs">
+              <span className="font-mono-data text-[10px] text-muted-foreground truncate max-w-[140px] sm:max-w-[220px]">
                 {item.repo}
               </span>
             )}
           </div>
-          <span className="font-mono-data text-[11px] text-foreground/70 block truncate">
+          <span className="font-mono-data text-[10px] text-foreground font-medium block truncate selection:bg-destructive selection:text-white">
             {item.maskedValue}
           </span>
         </div>
-        <span className="text-label text-green-600 shrink-0 font-semibold">
+        <span className="text-[10px] font-bold text-destructive shrink-0">
           found
         </span>
       </div>
@@ -93,11 +98,13 @@ const FeedRow = ({ item }: { item: FeedItem }) => {
 
   if (item.type === "done") {
     return (
-      <div className="flex items-center gap-2 py-2 px-3 rounded-md bg-foreground text-background border border-foreground animate-slide-up">
+      <div className="flex items-center gap-3 py-2 px-3 rounded-md bg-foreground text-background border border-foreground animate-slide-up">
         <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
         <span className="text-xs font-medium tracking-tight flex-1">
           Scan complete —{" "}
-          <span className="font-mono-data font-bold">{item.total ?? 0}</span>{" "}
+          <span className="font-mono-data font-bold bg-background text-foreground px-1 py-0.5 rounded ml-1">
+            {item.total ?? 0}
+          </span>{" "}
           new secrets discovered
         </span>
       </div>
@@ -106,7 +113,7 @@ const FeedRow = ({ item }: { item: FeedItem }) => {
 
   if (item.type === "error") {
     return (
-      <div className="flex items-center gap-2 py-2 px-3 rounded-md bg-destructive/10 border border-destructive/20 animate-slide-up">
+      <div className="flex items-center gap-3 py-2 px-3 rounded-md bg-destructive/10 border border-destructive/30 animate-slide-up">
         <XCircle className="h-3.5 w-3.5 text-destructive shrink-0" />
         <span className="text-xs text-destructive flex-1 leading-snug">
           {item.message}
@@ -120,13 +127,18 @@ const FeedRow = ({ item }: { item: FeedItem }) => {
 
 const PlaceholderRow = () => (
   <div
-    className="flex items-center gap-2 py-2 px-3 rounded-md border border-transparent"
+    className="flex items-center gap-3 py-2.5 px-3 rounded-md border border-transparent"
     aria-hidden
   >
-    <span className="h-3.5 w-3.5 shrink-0" />
-    <span className="text-xs text-transparent select-none">—</span>
+    <div className="h-3.5 w-3.5 rounded bg-blue-100 dark:bg-muted-foreground/20 shrink-0" />
+    <div className="flex-1 space-y-1.5">
+      <div className="h-2.5 w-24 bg-blue-100 dark:bg-muted-foreground/20 rounded" />
+      <div className="h-1.5 w-32 bg-blue-50/50 dark:bg-muted-foreground/10 rounded" />
+    </div>
   </div>
 );
+
+
 
 interface ScanLiveFeedProps {
   className?: string;
@@ -142,62 +154,65 @@ export const ScanLiveFeed = ({ className }: ScanLiveFeedProps) => {
   return (
     <div
       className={cn(
-        "rounded-lg border border-border bg-card overflow-hidden",
+        "rounded-lg border border-border bg-card shadow-lg overflow-hidden relative",
         className,
       )}
     >
-      <div className="flex items-center justify-between px-3 sm:px-4 py-2 border-b border-border bg-muted/30">
+      <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-muted/30">
         <div className="flex items-center gap-2">
           <span className="relative flex h-2 w-2 shrink-0">
             {isConnected ? (
               <>
                 {isActive && (
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-foreground opacity-60" />
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-60" />
                 )}
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-foreground" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
               </>
             ) : (
               <span className="relative inline-flex rounded-full h-2 w-2 bg-muted-foreground" />
             )}
           </span>
           <span className="text-xs font-semibold tracking-tight">
-            Live Scan Feed
+            Live scan feed
           </span>
           {isConnected ? (
-            <Badge variant="secondary" className="text-[10px] py-0 h-4">
-              <Wifi className="h-2.5 w-2.5 mr-1" />
+            <Badge variant="outline" className="text-[10px] py-0 h-4 border-success/30 bg-success/5 text-success">
               connected
             </Badge>
           ) : (
             <Badge variant="muted" className="text-[10px] py-0 h-4">
-              <WifiOff className="h-2.5 w-2.5 mr-1" />
-              waiting
+              offline
             </Badge>
           )}
           {foundCount > 0 && (
             <Badge
               variant="default"
-              className="text-[10px] py-0 h-4 font-mono-data"
+              className="text-[10px] py-0 h-4 font-mono-data bg-destructive hover:bg-destructive"
             >
               {foundCount} found
             </Badge>
           )}
         </div>
         {items.length > 0 && (
-          <Button variant="ghost" size="icon-sm" onClick={clear}>
+          <Button 
+            variant="ghost" 
+            size="icon-sm" 
+            onClick={clear}
+            className="h-6 w-6 text-muted-foreground hover:text-foreground"
+          >
             <X className="h-3.5 w-3.5" />
           </Button>
         )}
       </div>
-      <div className="p-2.5 sm:p-3 space-y-1.5">
+      <div className="p-2.5 sm:p-3 space-y-1.5 max-h-[360px] overflow-y-auto">
         {items.length === 0 ? (
           <>
-            <div className="flex items-center gap-2 py-2 px-3 rounded-md border border-transparent">
-              <span className="h-3.5 w-3.5 shrink-0" />
+            <div className="flex items-center gap-2 py-2 px-3 rounded-md border border-transparent opacity-50">
+              <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin text-muted-foreground" />
               <p className="text-xs text-muted-foreground">
                 {isConnected
-                  ? "Waiting for scan events…"
-                  : "Connecting to scan stream…"}
+                  ? "Waiting for scan events..."
+                  : "Connecting to scan stream..."}
               </p>
             </div>
             {Array.from({ length: SLOT_COUNT - 1 }).map((_, i) => (
@@ -216,6 +231,16 @@ export const ScanLiveFeed = ({ className }: ScanLiveFeedProps) => {
             )}
           </>
         )}
+      </div>
+      
+      {}
+      <div className="px-4 py-1.5 bg-muted/10 flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
+          <div className="h-1 w-1 rounded-full bg-success animate-pulse" />
+          <span className="text-[9px] font-mono-data text-muted-foreground/70">
+            stream active
+          </span>
+        </div>
       </div>
     </div>
   );
