@@ -229,6 +229,24 @@
     font-size: clamp(0.8125rem, 1vw + 0.5rem, 1rem);
     line-height: var(--leading-relaxed);
   }
+
+  .bg-grid {
+    background-size: 40px 40px;
+    background-image:
+      linear-gradient(to right, var(--border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+    background-position: center center;
+  }
+
+  .bg-dots {
+    background-size: 20px 20px;
+    background-image: radial-gradient(
+      circle,
+      var(--border) 1px,
+      transparent 1px
+    );
+    background-position: center center;
+  }
 }
 
 @utility font-mono-data {
