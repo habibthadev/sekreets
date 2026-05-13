@@ -53,6 +53,71 @@ Visit:
 
 ### Server (`server/.env`)
 
+`GITHUB_TOKEN` is optional, but recommended to increase GitHub API rate limits while scanning public repositories.
+
+#### How to get a GitHub personal access token
+
+GitHub supports two personal token types:
+
+- **Fine-grained personal access token**: recommended for this project because it is more restricted and safer by default.
+- **Personal access token (classic)**: older token type with broader access. Use it only if you specifically need it.
+
+This project only reads public GitHub data, so a **fine-grained token** is the best option in most cases.
+
+#### Option 1: Fine-grained token (recommended)
+
+1. Open GitHub `Settings`.
+2. Go to `Developer settings`.
+3. Open `Personal access tokens`.
+4. Click `Fine-grained tokens`.
+5. Click `Generate new token`.
+6. Give it a name like `sekreets-local`.
+7. Set an expiration date.
+8. Choose your personal account as the resource owner.
+9. Keep repository access as limited as possible.
+10. Do not grant write, admin, or private repository permissions unless you explicitly need them for another use case.
+11. Generate the token and copy it immediately.
+
+Recommended for this repo:
+
+- Token type: `Fine-grained`
+- Resource owner: your personal GitHub account
+- Repository access: minimal
+- Permissions: read-only usage for public GitHub API access
+
+#### Option 2: Personal access token (classic)
+
+Use this only if you cannot use a fine-grained token.
+
+1. Open GitHub `Settings`.
+2. Go to `Developer settings`.
+3. Open `Personal access tokens`.
+4. Click `Tokens (classic)`.
+5. Click `Generate new token (classic)`.
+6. Give it a name like `sekreets-local-classic`.
+7. Set an expiration date.
+8. Select only the minimum scopes you need.
+9. Generate the token and copy it immediately.
+
+If you use a classic token for this project:
+
+- Keep scopes as minimal as possible
+- Do not grant write, delete, admin, or workflow scopes unless you explicitly need them
+- This app only reads public GitHub API data, so broad scopes are unnecessary
+
+Add the token to your server env file:
+
+```env
+GITHUB_TOKEN=your_token_here
+```
+
+Notes:
+
+- The app can run without a token, but GitHub rate limits will be much lower.
+- This token is used for public GitHub API requests such as code search and reading repository file contents.
+- Never commit your token to Git.
+- If a token leaks, revoke it immediately in GitHub settings and create a new one.
+
 | Variable                | Default                              | Description                         |
 | ----------------------- | ------------------------------------ | ----------------------------------- |
 | `PORT`                  | `3001`                               | Server port                         |
