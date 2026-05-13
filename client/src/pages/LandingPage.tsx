@@ -195,7 +195,7 @@ const STATS = [
 const TerminalMock = () => (
   <div className="w-full max-w-lg mx-auto rounded-xl border border-border bg-card shadow-xl overflow-hidden text-left">
     {}
-    <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border bg-muted/50">
+    <div className="flex items-center gap-2 px-4 py-2.5 bg-muted/50">
       <span className="h-3 w-3 rounded-full bg-destructive/70" />
       <span className="h-3 w-3 rounded-full bg-warning/70" />
       <span className="h-3 w-3 rounded-full bg-success/70" />
@@ -242,15 +242,15 @@ export const LandingPage = () => {
     <div className="flex flex-col">
       <main className="flex-1">
         {}
-        <section className="relative border-b border-border overflow-hidden">
+        <section className="relative overflow-hidden">
           {}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_-10%,hsl(0_0%_12%/0.12),transparent)] pointer-events-none" />
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-40 bg-gradient-to-b from-border to-transparent" />
 
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-14 pb-20 sm:pt-20 sm:pb-28">
-            <div className="flex flex-col items-center gap-10 sm:gap-14">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-10 pb-16 sm:pt-20 sm:pb-28">
+            <div className="flex flex-col items-center gap-8 sm:gap-14">
               <div className="flex flex-col items-center text-center w-full max-w-2xl">
-                <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-muted px-3 py-1.5 text-xs text-muted-foreground">
+                <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-muted px-3 py-1.5 text-[10px] sm:text-xs text-muted-foreground">
                   <span className="h-1.5 w-1.5 rounded-full bg-success animate-scan-pulse" />
                   Scanner active — monitoring GitHub in real time
                 </div>
@@ -261,7 +261,7 @@ export const LandingPage = () => {
                     <span className="relative z-10 text-foreground">
                       plain sight.
                     </span>
-                    <span className="absolute inset-x-0 bottom-1 h-[6px] bg-destructive/20 rounded-sm -z-0" />
+                    <span className="absolute inset-x-0 bottom-1 h-[4px] sm:h-[6px] bg-destructive/20 rounded-sm -z-0" />
                   </span>
                   <br className="hidden sm:block" />
                   <span className="text-muted-foreground">
@@ -269,7 +269,7 @@ export const LandingPage = () => {
                   </span>
                 </h1>
 
-                <p className="mb-8 max-w-md text-fluid-body text-muted-foreground leading-relaxed">
+                <p className="mb-8 max-w-lg text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed px-2 line-clamp-3">
                   Sekreets continuously hunts GitHub's public event stream for
                   accidentally committed AI API keys — across{" "}
                   <span className="text-foreground font-medium">
@@ -278,19 +278,19 @@ export const LandingPage = () => {
                   — and surfaces them before bad actors do.
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                <div className="flex flex-row items-center justify-center gap-2 sm:gap-3 w-full sm:w-auto px-2 sm:px-0">
                   <Button
-                    size="lg"
+                    size="sm"
                     onClick={() => navigate("/secrets")}
-                    className="w-full sm:w-auto"
+                    className="flex-1 sm:flex-none sm:h-12 sm:px-8 sm:text-base h-10 px-4 rounded-full"
                   >
                     Open Scanner
-                    <ChevronRight className="h-4 w-4" />
+                    <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   </Button>
                   <Button
                     variant="outline"
-                    size="lg"
-                    className="w-full sm:w-auto"
+                    size="sm"
+                    className="flex-1 sm:flex-none sm:h-12 sm:px-8 sm:text-base h-10 px-4 rounded-full"
                     onClick={() =>
                       document
                         .getElementById("features")
@@ -325,7 +325,7 @@ export const LandingPage = () => {
         </section>
 
         {}
-        <section className="border-b border-border overflow-hidden py-3 bg-muted/30">
+        <section className="overflow-hidden py-3 bg-muted/30">
           <div
             className="flex gap-3 whitespace-nowrap"
             style={{ animation: "marquee 35s linear infinite" }}
@@ -353,7 +353,7 @@ export const LandingPage = () => {
         </section>
 
         {}
-        <section className="border-b border-border bg-muted/10">
+        <section className="bg-muted/10">
           <div className="mx-auto max-w-5xl px-4 sm:px-6 py-10 sm:py-14">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
               {STATS.map(({ label, value, icon: Icon }) => (
@@ -374,7 +374,7 @@ export const LandingPage = () => {
         </section>
 
         {}
-        <section id="features" className="border-b border-border">
+        <section id="features" className="">
           <div className="mx-auto max-w-5xl px-4 sm:px-6 py-16 sm:py-20">
             <div className="mb-10 sm:mb-14 text-center">
               <Badge variant="outline" className="mb-4 text-xs">
@@ -412,7 +412,7 @@ export const LandingPage = () => {
         </section>
 
         {}
-        <section className="relative overflow-hidden border-t border-border">
+        <section className="relative overflow-hidden">
           {}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_70%_at_50%_100%,hsl(0_84%_60%/0.07),transparent)] pointer-events-none" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,hsl(0_0%_10%/0.05),transparent)] pointer-events-none" />
@@ -454,23 +454,25 @@ export const LandingPage = () => {
               </p>
 
               {}
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10">
+              <div className="flex flex-row items-center justify-center gap-2 sm:gap-3 mb-10 px-2 sm:px-0">
                 <Button
-                  size="lg"
-                  className="w-full sm:w-auto gap-2 shadow-lg shadow-primary/20"
+                  size="sm"
+                  className="flex-1 sm:flex-none sm:h-11 sm:px-6 text-[11px] sm:text-sm gap-1.5 sm:gap-2 shadow-lg shadow-primary/20 rounded-full"
                   onClick={() => navigate("/secrets")}
                 >
-                  <Zap className="h-4 w-4" />
-                  Launch Scanner Now
+                  <Zap className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  <span className="sm:hidden">Launch</span>
+                  <span className="hidden sm:inline">Launch Scanner Now</span>
                 </Button>
                 <Button
                   variant="outline"
-                  size="lg"
-                  className="w-full sm:w-auto gap-2"
+                  size="sm"
+                  className="flex-1 sm:flex-none sm:h-11 sm:px-6 text-[11px] sm:text-sm gap-1.5 sm:gap-2 rounded-full"
                   onClick={() => navigate("/leaderboard")}
                 >
-                  <ShieldAlert className="h-4 w-4" />
-                  View Hall of Shame
+                  <ShieldAlert className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                  <span className="sm:hidden">Hall</span>
+                  <span className="hidden sm:inline">View Hall of Shame</span>
                 </Button>
               </div>
 

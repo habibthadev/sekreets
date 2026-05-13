@@ -12,16 +12,19 @@ const App = () => {
   return (
     <ScanFeedProvider>
       <ScrollToTop />
-      <div className="min-h-screen bg-background text-foreground flex flex-col">
+      <div className="min-h-screen bg-background text-foreground flex flex-col relative">
+        {}
+        <div className="fixed inset-0 bg-grid opacity-[0.02] pointer-events-none -z-10" />
+        
         <Navbar />
-        <div className="flex-1">
+        <main className="flex-1 relative z-0">
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/secrets" element={<SecretsPage />} />
             <Route path="/leaderboard" element={<LeaderboardPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
-        </div>
+        </main>
         <Footer />
       </div>
     </ScanFeedProvider>

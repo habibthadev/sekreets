@@ -30,7 +30,7 @@ export const Navbar = () => {
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
         <Link
           to="/"
@@ -105,7 +105,7 @@ export const Navbar = () => {
       </div>
 
       {menuOpen && (
-        <nav className="sm:hidden absolute top-full left-0 right-0 border-b border-border bg-background/95 backdrop-blur-md shadow-lg z-50">
+        <nav className="sm:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md shadow-lg z-50">
           <div className="mx-auto max-w-7xl px-3 py-2 flex flex-col gap-0.5">
             {NAV_LINKS.map(({ to, label, icon: Icon }) => (
               <Link

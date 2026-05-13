@@ -8,6 +8,7 @@ import {
   GitBranch,
   Hash,
   Zap,
+  Terminal,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import type { Secret } from "@/lib/api";
@@ -56,38 +57,50 @@ export const SecretCard = ({ secret }: SecretCardProps) => {
     "bg-muted text-muted-foreground border-border";
 
   return (
-    <div className="animate-fade-in rounded-lg border border-border bg-card transition-colors hover:border-foreground/20 flex flex-col min-w-0 overflow-hidden w-full">
-      <div className="flex items-center gap-2 px-3 pt-3 pb-2.5">
-        <img
-          src={secret.repoOwnerAvatar}
-          alt={secret.repoOwner}
-          className="h-6 w-6 rounded-full border border-border shrink-0 bg-muted"
-          onError={(e) => {
-            (e.currentTarget as HTMLImageElement).src =
-              `https://github.com/${secret.repoOwner}.png?size=24`;
-          }}
-        />
-        <a
-          href={secret.repoUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex-1 min-w-0 text-xs font-medium tracking-tight text-foreground hover:underline truncate"
-        >
-          {secret.repoFullName}
-        </a>
-        <span
-          className={cn(
-            "shrink-0 inline-flex items-center rounded-sm border px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest leading-none",
-            providerColorClass,
-          )}
-        >
-          {secret.provider}
-        </span>
+    <div className="group animate-fade-in rounded-xl border border-border bg-card transition-all duration-300 hover:border-foreground/30 hover:shadow-lg hover:-translate-y-1 flex flex-col min-w-0 overflow-hidden w-full">
+      {}
+      <div className="absolute top-0 right-0 p-2 opacity-10 pointer-events-none group-hover:opacity-20 transition-opacity">
+        <div className="bg-dots w-16 h-16" />
       </div>
 
-      <div className="px-3 pb-2.5">
-        <div className="flex items-center gap-2 rounded-md border border-border bg-muted/40 px-3 py-2 min-w-0">
-          <code className="flex-1 min-w-0 font-mono-data text-[11px] text-foreground truncate">
+      <div className="flex items-center gap-3 px-4 pt-4 pb-3">
+        <div className="relative shrink-0">
+          <img
+            src={secret.repoOwnerAvatar}
+            alt={secret.repoOwner}
+            className="h-8 w-8 rounded-full border border-border bg-muted shadow-sm"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src =
+                `https://github.com/${secret.repoOwner}.png?size=32`;
+            }}
+          />
+          <div className="absolute -bottom-1 -right-1 h-3 w-3 rounded-full bg-success border-2 border-card" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <a
+            href={secret.repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block text-sm font-semibold tracking-tight text-foreground hover:underline truncate"
+          >
+            {secret.repoFullName}
+          </a>
+          <div className="flex items-center gap-2 mt-0.5">
+            <span
+              className={cn(
+                "inline-flex items-center rounded-sm border px-1.5 py-0 text-[10px] font-bold uppercase tracking-widest leading-none h-4",
+                providerColorClass,
+              )}
+            >
+              {secret.provider}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="px-4 pb-3">
+        <div className="group/code relative flex items-center gap-2 rounded-lg border border-border bg-muted/30 px-3 py-2.5 min-w-0 transition-colors hover:bg-muted/50">
+          <code className="flex-1 min-w-0 font-mono-data text-[11px] text-foreground truncate selection:bg-foreground selection:text-background">
             {secret.maskedValue}
           </code>
           <Tooltip content="Copy masked value">
@@ -95,42 +108,42 @@ export const SecretCard = ({ secret }: SecretCardProps) => {
               variant="ghost"
               size="icon-sm"
               onClick={copyMasked}
-              className="shrink-0 h-6 w-6"
+              className="shrink-0 h-7 w-7 opacity-50 group-hover/code:opacity-100 transition-opacity"
             >
-              <Copy className="h-3 w-3" />
+              <Copy className="h-3.5 w-3.5" />
             </Button>
           </Tooltip>
         </div>
       </div>
 
-      <div className="px-3 pb-2.5 flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
+      <div className="px-4 pb-3 flex items-center gap-4 text-xs text-muted-foreground flex-wrap">
         <Tooltip content={`Shannon entropy: ${secret.entropy}`}>
-          <span
+          <div
             className={cn(
-              "flex items-center gap-1 font-mono-data tabular-nums shrink-0",
+              "flex items-center gap-1.5 font-mono-data tabular-nums shrink-0 px-1.5 py-0.5 rounded bg-muted/20",
               entropyColor(secret.entropy),
             )}
           >
             <Zap className="h-3 w-3" />
             {secret.entropy}
-          </span>
+          </div>
         </Tooltip>
         {secret.stars > 0 && (
-          <span className="flex items-center gap-1 font-mono-data tabular-nums shrink-0">
-            <Star className="h-3 w-3" />
+          <div className="flex items-center gap-1.5 font-mono-data tabular-nums shrink-0">
+            <Star className="h-3.5 w-3.5 text-yellow-500/80" />
             {secret.stars.toLocaleString()}
-          </span>
+          </div>
         )}
-        <span className="flex items-center gap-1 tracking-tight min-w-0">
-          <Hash className="h-3 w-3 shrink-0" />
-          <span className="truncate">
+        <div className="flex items-center gap-1.5 tracking-tight min-w-0">
+          <Hash className="h-3.5 w-3.5 shrink-0 opacity-60" />
+          <span className="truncate opacity-80">
             {secret.patternName.replace(/_/g, " ")}
           </span>
-        </span>
+        </div>
       </div>
 
-      <div className="mx-3 mb-2.5 rounded-md border border-border bg-muted/20 px-2.5 py-1.5 flex items-center gap-2 min-w-0">
-        <GitBranch className="h-3 w-3 text-muted-foreground shrink-0" />
+      <div className="mx-4 mb-3 rounded-lg border border-border bg-muted/10 px-3 py-2 flex items-center gap-2.5 min-w-0 hover:bg-muted/20 transition-colors">
+        <GitBranch className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
         <a
           href={secret.fileUrl}
           target="_blank"
@@ -144,60 +157,67 @@ export const SecretCard = ({ secret }: SecretCardProps) => {
           href={secret.fileUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="shrink-0"
+          className="shrink-0 text-muted-foreground hover:text-foreground transition-colors"
           aria-label="Open file"
         >
-          <ExternalLink className="h-3 w-3 text-muted-foreground hover:text-foreground transition-colors" />
+          <ExternalLink className="h-3.5 w-3.5" />
         </a>
       </div>
 
       {secret.fragment && (
-        <>
+        <div className="mx-4 mb-3 flex flex-col">
           <button
             type="button"
             onClick={() => setExpanded((v) => !v)}
-            className="mx-3 mb-2.5 flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors tracking-tight w-fit"
+            className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors tracking-tight w-fit py-1"
           >
             {expanded ? (
-              <ChevronUp className="h-3 w-3" />
+              <ChevronUp className="h-3.5 w-3.5" />
             ) : (
-              <ChevronDown className="h-3 w-3" />
+              <ChevronDown className="h-3.5 w-3.5" />
             )}
-            {expanded ? "Hide" : "Show"} snippet
+            {expanded ? "Hide" : "Show"} code snippet
           </button>
-          {expanded && (
-            <div className="mx-3 mb-2.5 rounded-md border border-border bg-muted/40 p-3 overflow-auto max-h-32">
-              <pre className="font-mono-data text-[11px] text-muted-foreground whitespace-pre-wrap break-all leading-relaxed">
+          <div
+            className={cn(
+              "grid transition-all duration-300 ease-in-out overflow-hidden",
+              expanded ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0",
+            )}
+          >
+            <div className="min-h-0">
+              <div className="rounded-lg border border-border bg-muted/40 p-4 font-mono-data text-[11px] text-muted-foreground whitespace-pre-wrap break-all leading-relaxed relative">
+                <div className="absolute top-0 right-0 p-1.5 opacity-20">
+                  <Terminal className="h-3 w-3" />
+                </div>
                 {secret.fragment}
-              </pre>
+              </div>
             </div>
-          )}
-        </>
+          </div>
+        </div>
       )}
 
-      <div className="mt-auto border-t border-border px-3 py-2 flex items-center justify-between gap-2">
-        <span className="text-label text-muted-foreground truncate">
+      <div className="mt-auto bg-muted/5 px-4 py-3 flex items-center justify-between gap-3">
+        <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground tabular-nums">
           {formatDistanceToNow(new Date(secret.discoveredAt), {
             addSuffix: true,
           })}
         </span>
-        <div className="flex items-center gap-1 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           <a href={secret.fileUrl} target="_blank" rel="noopener noreferrer">
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
-              className="text-xs h-7 px-2 gap-1 tracking-tight"
+              className="h-8 px-3 text-xs font-semibold gap-1.5 transition-all hover:bg-foreground hover:text-background"
             >
-              <ExternalLink className="h-3 w-3" />
-              <span className="hidden sm:inline">View file</span>
-              <span className="sm:hidden">File</span>
+              <ExternalLink className="h-3.5 w-3.5" />
+              <span>View</span>
             </Button>
           </a>
           <a href={secret.repoUrl} target="_blank" rel="noopener noreferrer">
             <Button
               variant="ghost"
               size="sm"
-              className="text-xs h-7 px-2 tracking-tight"
+              className="h-8 px-3 text-xs font-semibold"
             >
               Repo
             </Button>
